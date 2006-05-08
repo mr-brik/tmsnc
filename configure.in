@@ -30,8 +30,6 @@ AC_CHECK_FUNC(socket, ,
    AC_CHECK_LIB(socket, socket, ,
       AC_CHECK_LIB(nsl, socket)))
 
-AC_CHECK_FUNC(pthread_create,,AC_CHECK_LIB(pthread, pthread_create))
-
 AC_CHECK_CURSES
 if test "$has_curses" = false ; then
         AC_ERROR(You don't seem to have the curses headers installed)
@@ -42,8 +40,6 @@ AM_ICONV
 
 AC_SUBST(CURSES_LIBS)
 AC_SUBST(CURSES_INCLUDEDIR)
-
-dnl AC_CHECK_LIB(pthread, pthread_create,,AC_ERROR(pthread library required))
 
 dnl Checks for openssl
 

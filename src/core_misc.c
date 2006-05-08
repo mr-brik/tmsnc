@@ -38,9 +38,10 @@ MSN_init(session)
     session->format.effect = ' ';
 
     /*
-     * Initially allocate space for one contact 
+     * Initially allocate space for one contact and one group
      */
     session->contact = (MSN_contact **) malloc(1 * sizeof(MSN_contact));
+    session->group = (MSN_group **) malloc(1 * sizeof(MSN_group));
 }
 
 int
