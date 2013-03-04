@@ -118,8 +118,8 @@ struct menu {
     int hide;
 };
 
-#define WINBUFSIZE   2048
-#define FIELDBUFSIZE 512
+#define WINBUFSIZE   4096
+#define FIELDBUFSIZE 1024
 
 struct win {
     WINDOW *win;

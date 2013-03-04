@@ -31,7 +31,7 @@
 #include <openssl/rand.h>
 #include <sys/time.h>
 
-#define BUF_SIZE 2048
+#define BUF_SIZE 4096
 
 extern BIO *bio_err;
 int berr_exit(char *string);

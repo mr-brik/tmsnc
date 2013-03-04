@@ -101,7 +101,7 @@ UI_put_msg(msg)
      char *msg;
 {
     int y, x;
-    char buf[512];
+    char buf[1024];
     getmaxyx(stdscr, y, x);
     attron(A_REVERSE);
     mvhline(y - 1, 0, ' ', x);
@@ -223,7 +223,7 @@ UI_current_conversation(ui, conv)
 int
 UI_win_addstr(struct ui *ui, struct win *win, char *fmt, ...)
 {
-    char buf[2048];
+    char buf[4096];
     va_list ap;
 
     va_start(ap, fmt);

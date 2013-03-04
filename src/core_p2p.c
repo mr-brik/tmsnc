@@ -86,7 +86,7 @@ readMsgHeader(sd, msg_head)
     while(1) {
         if (wait_for_input(sd, 2) < 1)
             return -1;
-        if (getline(buf, sizeof(buf) - 1, sd) < 0)
+        if (msn_getline(buf, sizeof(buf) - 1, sd) < 0)
             return -1;
         if (strcmp(buf, "\r\n") == 0)
             break;
@@ -145,7 +145,7 @@ MSN_handle_p2p_msg(sd)
     while(1) {
         if (wait_for_input(sd, 2) < 1)
             return -1;
-        if (getline(buf, sizeof(buf) - 1, sd) < 0)
+        if (msn_getline(buf, sizeof(buf) - 1, sd) < 0)
             return -1;
         if (strcmp(buf, "\r\n") == 0)
             break;
@@ -181,7 +181,7 @@ MSN_handle_p2p_msg(sd)
     while(1) {
         if (wait_for_input(sd, 2) < 1)
             return -1;
-        if (getline(buf, sizeof(buf) - 1, sd) < 0)
+        if (msn_getline(buf, sizeof(buf) - 1, sd) < 0)
             return -1;
         if (strncmp(buf, "EUF-GUID: ", 10) == 0) {
             if(strcmp(&buf[10], "{5D3E02AB-6190-11D3-BBBB-00C04F795683}\r\n") != 0)

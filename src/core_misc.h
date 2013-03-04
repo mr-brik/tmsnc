@@ -22,4 +22,4 @@
 #include <openssl/md5.h>
 
 #define MAX_STATUS 65
-#define BUFSIZE 2048
+#define BUFSIZE 4096

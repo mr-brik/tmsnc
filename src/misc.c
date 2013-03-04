@@ -116,7 +116,7 @@ int
 UI_check_for_updates(void)
 {
     int sd;
-    char buf[512];
+    char buf[1024];
 
     if ((sd = tcp_connect("tmsnc.sourceforge.net", 80)) < 0)
         UI_err_exit("Couldn't connect to tmsnc.sf.net");
@@ -126,7 +126,7 @@ UI_check_for_updates(void)
              "Host: tmsnc.sourceforge.net\r\n\r\n", 59, 0) < 0)
         UI_err_exit("Couldn't send HTTP request");
 
-    while (getline(buf, sizeof(buf) - 1, sd) > 0) {
+    while (msn_getline(buf, sizeof(buf) - 1, sd) > 0) {
         buf[strlen(buf) - 1] = 0x0;
         if (strncmp(buf, "Version", 7) == 0) {
             if (strcmp(&buf[9], VERSION) == 0) {

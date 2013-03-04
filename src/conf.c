@@ -29,7 +29,7 @@ UI_loadaliases(dir, session)
      * Read ~/.tmsnc/aliases.conf, and load its content 
      */
 
-    char *left, *right, filenamebuf[512], linebuf[512];
+    char *left, *right, filenamebuf[1024], linebuf[1024];
     FILE *in = NULL;
     int cnt;
 
@@ -87,7 +87,7 @@ UI_dumpaliases(dir, session)
      * Write the aliases into ~/.tmsnc/aliases.conf 
      */
 
-    char filenamebuf[512];
+    char filenamebuf[1024];
     FILE *out = NULL;
     int cnt;
 
@@ -166,7 +166,7 @@ UI_loadconfig(path, session)
      MSN_session *session;
 {
     FILE *in = NULL;
-    char *left, *right, buf[512];
+    char *left, *right, buf[1024];
 
     in = fopen(path, "r");
     if (in == NULL)
@@ -289,7 +289,7 @@ UI_createconfig(dir)
      char *dir;
 {
     FILE *out;
-    char buf[512];
+    char buf[1024];
 
     snprintf(buf, sizeof(buf) - 1, "%s/.tmsnc", dir);
     mkdir(buf, 0700);

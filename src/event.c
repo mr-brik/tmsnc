@@ -378,7 +378,7 @@ UI_do_command(session, ui, c, ret, retsize)
      size_t retsize;
 {
     int r;
-    char buf[512], r_buf[512], *ptr;
+    char buf[1024], r_buf[1024], *ptr;
 
     switch (c) {
     case cmd_none:
@@ -534,7 +534,7 @@ UI_handle_power_functions(ui, session)
      MSN_session *session;
 {
     int i;
-    char r_buf[512];
+    char r_buf[1024];
 
     UI_dialog_getstr("Enter command", r_buf, sizeof(r_buf) - 1);
 
@@ -580,7 +580,7 @@ UI_handle_power_functions(ui, session)
         if (UI_dialog_getstr
             ("Import contact list to file", r_buf, sizeof(r_buf) - 1) == 0) {
             FILE *inp;
-            char *ptr, buf[512];
+            char *ptr, buf[1024];
 
             inp = fopen(r_buf, "r");
 

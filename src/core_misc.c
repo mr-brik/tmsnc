@@ -246,7 +246,7 @@ MSN_free_contact(contact)
  * require a (FILE *) pointer
  */
 int
-getline(str, size, sd)
+msn_getline(str, size, sd)
      char *str;
      int size;
      int sd;

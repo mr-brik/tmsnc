@@ -108,7 +108,7 @@ unsigned int swapInt(unsigned int);
 unsigned long long swapLongLong(unsigned long long);
 int wait_for_input(int, unsigned int);
 char *split(char *, char, int);
-int getline(char *, int, int);
+int msn_getline(char *, int, int);
 
 /* ssl.c */
 int https_auth(char *, int, char *, char *, char *, char *, char *, int,

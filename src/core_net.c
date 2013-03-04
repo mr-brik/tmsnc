@@ -180,7 +180,7 @@ MSN_conversation_sendmsg(sd, csc, str, session)
      char *str;
      MSN_session *session;
 {
-    char buf[2048], format[128], *conv_str;
+    char buf[4096], format[128], *conv_str;
     int conv_size = strlen(str) * 2;
 
     snprintf(format, sizeof(format) - 1,
@@ -236,11 +236,11 @@ MSN_conversation_handle(sd, num_ppl, message, message_len, session)
     int i, msg_len, header_len;
 
 #ifdef HAVE_ICONV
-    char tr_buf[2048];
+    char tr_buf[4096];
 #endif
 
     memset(buf, 0x0, sizeof(buf));
-    if (getline(buf, sizeof(buf) - 1, sd) > 0) {
+    if (msn_getline(buf, sizeof(buf) - 1, sd) > 0) {
 #ifdef DEBUG
         debug_log("sb %d: %s", sd, buf);
 #endif
@@ -278,7 +278,7 @@ MSN_conversation_handle(sd, num_ppl, message, message_len, session)
 
             header_len = 0;
 
-            while ((i = getline(buf, sizeof(buf) - 1, sd)) > 0) {
+            while ((i = msn_getline(buf, sizeof(buf) - 1, sd)) > 0) {
                 header_len += i;
 #ifdef DEBUG
                 debug_log("sb %d: %s", sd, buf);
@@ -390,7 +390,7 @@ MSN_conversation_call(sd, csc, addr)
      int *csc;
      char *addr;
 {
-    char buf[512];
+    char buf[1024];
 
     if (MSN_is_valid_address(addr) != 0)
         return -1;
@@ -678,7 +678,7 @@ void
 MSN_send_uux(session)
      MSN_session *session;
 {
-    char buf[512];
+    char buf[1024];
     
     snprintf(buf, sizeof(buf) - 1, "UUX %d %d\r\n"
                                    "<Data><PSM>%s</PSM><CurrentMedia>%s</CurrentMedia></Data>",
@@ -692,7 +692,7 @@ int MSN_set_current_media(str, session)
      char *str;
      MSN_session *session;
 {
-    char buf[512];
+    char buf[1024];
 
     MSN_xml_encode(str, buf, sizeof(buf) - 1);
 
@@ -710,7 +710,7 @@ int MSN_set_personal_message(str, session)
      char *str;
      MSN_session *session;
 {
-    char buf[512];
+    char buf[1024];
 
     MSN_xml_encode(str, buf, sizeof(buf) - 1);
 
@@ -731,7 +731,7 @@ MSN_server_handle(session, message, message_len)
      int message_len;
 {
     time_t tm;
-    char buf[512], md_hex[48];
+    char buf[1024], md_hex[48];
     char *ptr[6];
     int i, j, ret_sd;
 
@@ -745,7 +745,7 @@ MSN_server_handle(session, message, message_len)
             return -1;
         timestamp = tm;
     }
-    while (getline(buf, sizeof(buf) - 1, session->sd) > 0) {
+    while (msn_getline(buf, sizeof(buf) - 1, session->sd) > 0) {
 #ifdef HAVE_ICONV
         strncpy(tr_buf, buf, sizeof(tr_buf) - 1);
         convert_from_utf8(tr_buf, sizeof(tr_buf), buf, sizeof(buf));
@@ -1146,7 +1146,7 @@ MSN_load_userlist(session, cb)
      MSN_session *session;
      void (*cb) (int, void *);
 {
-    char buf[512], tr_buf[256];
+    char buf[1024], tr_buf[256];
     char *ptr;
     int i, a, curGroup;
 
@@ -1161,7 +1161,7 @@ MSN_load_userlist(session, cb)
     if (send(session->sd, buf, strlen(buf), 0) == 0)
         return -1;
 
-    if (getline(buf, sizeof(buf) - 1, session->sd) < 0)
+    if (msn_getline(buf, sizeof(buf) - 1, session->sd) < 0)
         return -1;
 
     if ((ptr = split(buf, ' ', 4)) == NULL)
@@ -1191,7 +1191,7 @@ MSN_load_userlist(session, cb)
 
     i = 0;
     while (i < session->num_contacts) {
-        if (getline(buf, sizeof(buf) - 1, session->sd) < 0)
+        if (msn_getline(buf, sizeof(buf) - 1, session->sd) < 0)
             return -1;
 
         /*
@@ -1383,7 +1383,7 @@ MSN_init_session(server, port, session, msn_passwd, callback)
     char buf[BUFSIZE];          /* The buffer used in recv() and send() */
     int sd;                     /* Socket descriptor */
     char *ptr[2];
-    char ticket[512];
+    char ticket[1024];
     ptr[1] = (char *)malloc(sizeof(char) * (strlen(server) + 1));
     strncpy(ptr[1], server, strlen(server) + 1);
 
@@ -1524,6 +1524,7 @@ MSN_init_session(server, port, session, msn_passwd, callback)
             callback(-1, "Couldn't send final USR request");
         return -1;
     }
+
 
     /*** Receive the reply from the server ***/
     if (callback != NULL)
